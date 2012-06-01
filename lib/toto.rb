@@ -133,7 +133,7 @@ module Toto
 
   protected
 
-    def http(code,context)
+    def http code
       [@config[:error].call(code,context), code]
     end
 
