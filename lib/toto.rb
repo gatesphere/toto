@@ -111,7 +111,7 @@ module Toto
               context[archives(route * '-'), :archives]
             when 4
               context[article(route), :article]
-            else http 400
+            else http(400,context)
           end
         elsif respond_to?(path)
           context[send(path, type), path.to_sym]
@@ -122,19 +122,19 @@ module Toto
           context[{}, path.to_sym]
         end
       else
-        http 400
+        http(400,context)
       end
 
     rescue Errno::ENOENT => e
-      return :body => http(404).first, :type => :html, :status => 404
+      return :body => http(404,context).first, :type => :html, :status => 404
     else
       return :body => body || "", :type => type, :status => status || 200
     end
 
   protected
 
-    def http code
-      [@config[:error].call(code), code]
+    def http(code,context)
+      [@config[:error].call(code,context), code]
     end
 
     def articles
@@ -299,8 +299,8 @@ module Toto
       :to_html => lambda {|path, page, ctx|                 # returns an html, from a path & context
         ERB.new(File.read("#{path}/#{page}.rhtml")).result(ctx)
       },
-      :error => lambda {|code|                              # The HTML for your error page
-        ERB.new(File.read("#{Paths[:pages]}/#{code}.rhtml")).result
+      :error => lambda {|code, ctx|                              # The HTML for your error page
+        ERB.new(File.read("#{Paths[:pages]}/#{code}.rhtml")).result(ctx)
       }
     }
     def initialize obj
