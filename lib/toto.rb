@@ -134,7 +134,7 @@ module Toto
   protected
 
     def http code
-      [@config[:error].call(code,context), code]
+      [@config[:error].call(code), code]
     end
 
     def articles
