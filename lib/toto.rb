@@ -111,7 +111,7 @@ module Toto
               context[archives(route * '-'), :archives]
             when 4
               context[article(route), :article]
-            else http(400,context)
+            else http 400
           end
         elsif respond_to?(path)
           context[send(path, type), path.to_sym]
@@ -122,11 +122,11 @@ module Toto
           context[{}, path.to_sym]
         end
       else
-        http(400,context)
+        http 400
       end
 
     rescue Errno::ENOENT => e
-      return :body => http(404,context).first, :type => :html, :status => 404
+      return :body => http(404).first, :type => :html, :status => 404
     else
       return :body => body || "", :type => type, :status => status || 200
     end
