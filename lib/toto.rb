@@ -301,6 +301,7 @@ module Toto
       },
       :error => lambda {|code|
         @code = code
+        title = "error #{@code}"
         ERB.new(File.read("#{Paths[:pages]}/error.rhtml")).result(binding)
       }
     }
