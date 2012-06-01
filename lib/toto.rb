@@ -300,7 +300,7 @@ module Toto
         ERB.new(File.read("#{path}/#{page}.rhtml")).result(ctx)
       },
       :error => lambda {|code|                              # The HTML for your error page
-        ERB.new(File.read("#{:pages}/#{code}.rhtml")).result(ctx)
+        ERB.new(File.read("#{Paths[:pages]}/#{code}.rhtml")).result
       }
     }
     def initialize obj
