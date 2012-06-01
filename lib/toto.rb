@@ -22,6 +22,7 @@ module Toto
   Paths = {
     :templates => "templates",
     :pages => "templates/pages",
+    :errorpath => "templates/error",
     :articles => "articles"
   }
 
@@ -302,7 +303,7 @@ module Toto
       :error => lambda {|code|
         @code = code
         title = "error #{@code}"
-        ERB.new(File.read("#{Paths[:pages]}/error.rhtml")).result(binding)
+        ERB.new(File.read("#{Paths[:errorpath]}/error.rhtml")).result(binding)
       }
     }
     def initialize obj
